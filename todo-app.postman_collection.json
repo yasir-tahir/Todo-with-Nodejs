@@ -1,0 +1,48 @@
+{
+	"info": {
+		"_postman_id": "02b8b9a1-3353-419d-bb85-a1e4feda72a2",
+		"name": "todo-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40699872"
+	},
+	"item": [
+		{
+			"name": "get all todos api",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5001/get-all-todos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"get-all-todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addtodo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5001/addtodo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"addtodo"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
