@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 
 const app = express()
 const port = process.env.PORT || 5001
@@ -7,8 +8,10 @@ const todos = []
 
 // To Convert body into JSON
 app.use(express.json())
+app.use(cors({origin:['http://localhost:5173', 'https://frontend.surge.sh' ]}))
 
-app.get('/get-all-todos', (request, response)=> {
+
+app.get('/api/v1/todos', (request, response)=> {
 
     
 const message = !todos.length?"todos empty" : "ye lo sab todos"
@@ -21,7 +24,7 @@ const message = !todos.length?"todos empty" : "ye lo sab todos"
 }) 
 
 // naya todo banane ka
-app.post('/addtodo', (request, response)=> {
+app.post('/api/v1/todo', (request, response)=> {
 
     const obj  = { todoContent: request.body.todo, 
         id: String(new Date().getTime()),
@@ -32,7 +35,7 @@ app.post('/addtodo', (request, response)=> {
     response.send({message: "todo add hogaya hai", data:obj})
 })
 // ye todo ko update ya edit karne ki api hai
-app.patch('/edit-todo/:id', (request, response)=> { 
+app.patch('/api/v1/todo/:id', (request, response)=> { 
 
     const id = request.params.id
 
@@ -63,9 +66,8 @@ app.patch('/edit-todo/:id', (request, response)=> {
     
     
 })
-
-
-app.patch('/delete-todo/:id', (request, response)=> {
+// ye todo ko delete karega
+app.delete('/api/v1/todo/:id', (request, response)=> {
     const id = request.params.id
 
     
