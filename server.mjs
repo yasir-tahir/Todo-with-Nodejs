@@ -1,5 +1,14 @@
 import express from 'express'
 import cors from 'cors'
+import 'dotenv/config'
+
+import './database.mjs'
+import { Todo } from './models/index.mjs'
+
+
+// setTimeout(()=>{
+//     process.exit(0);
+// }, 3000)
 
 const app = express()
 const port = process.env.PORT || 5001
@@ -11,48 +20,76 @@ app.use(express.json())
 app.use(cors({origin:['http://localhost:5173', 'https://frontend.surge.sh' ]}))
 
 
-app.get('/api/v1/todos', (request, response)=> {
+app.get('/api/v1/todos', async (request, response)=> {
 
+    try {
+        const todos = await Todo.find({},
+            {todoContent: 1, _id:0 }
     
-const message = !todos.length?"todos empty" : "ye lo sab todos"
-
-
-    response.send(
-        {data:todos,message:message}
-    )
+        )
+        
+    const message = !todos.length?"todos empty" : "ye lo sab todos"
+    
+    
+        response.send(
+            {data:todos,message:message}
+        )
+        
+    } catch (error) {
+        response.status(500).send("Internal server error")
+        
+    }
 
 }) 
 
 // naya todo banane ka
-app.post('/api/v1/todo', (request, response)=> {
-
+app.post('/api/v1/todo', async (request, response)=> {
+try {
+    
     const obj  = { todoContent: request.body.todo, 
-        id: String(new Date().getTime()),
-    }
+        ip:request.ip
+    };
 
-    todos.push(obj);
+
+    const res = await Todo.create(obj)
+    // todos.push(obj);
 
     response.send({message: "todo add hogaya hai", data:obj})
+} catch (error) {
+    response.status(500).send("Internal server error")
+    
+}
 })
+
+
 // ye todo ko update ya edit karne ki api hai
-app.patch('/api/v1/todo/:id', (request, response)=> { 
+app.patch('/api/v1/todo/:id', async (request, response)=> { 
 
     const id = request.params.id
 
-    let isFound = false
-    for (let i = 0; i < todos.length; i++) {
+    const result = await Todo.findByIdAndUpdate(id, 
+        {
+            todoContent: request.body.todoContent
+        }
+    )
 
-        if(todos[i].id === id){
+    console.log('result=>', result);
+    
+
+    // let isFound = false
+    // for (let i = 0; i < todos.length; i++) {
+
+    //     if(todos[i].id === id){
 // idher product mil chuka hai
 // (ab us product ko add karna hai) 
 
-    todos[i].todoContent = request.body.todoContent        
-    isFound = true    
-    break;    
-        }
-    }
+    // todos[i].todoContent = request.body.todoContent        
+    // isFound = true    
+    // break;    
+    //     }
+    // }
 
-    if(isFound){
+    if(result){
         response.status(201).send({
             data: { todoContent: request.body.todoContent, 
             id:id,
@@ -67,23 +104,13 @@ app.patch('/api/v1/todo/:id', (request, response)=> {
     
 })
 // ye todo ko delete karega
-app.delete('/api/v1/todo/:id', (request, response)=> {
+app.delete('/api/v1/todo/:id', async (request, response)=> {
     const id = request.params.id
 
+    const result = await Todo.findByIdAndDelete(id)
     
-    let isFound = false
-    for (let i = 0; i < todos.length; i++) {
 
-        if(todos[i].id === id){
-// idher product mil chuka hai (ab us product ko delete karna hai) 
-
-    todos.splice(i, 1)        
-    isFound = true    
-    break;    
-        }
-    }
-
-    if(isFound){
+    if(result){
         response.status(201).send({
             // data: { todoContent: request.body.todoContent, 
             // id:id,   },
@@ -99,7 +126,7 @@ app.delete('/api/v1/todo/:id', (request, response)=> {
 
 
 app.use((request,response)=>{
-    response.status(404).send("no route found!")
+    response.status(404).send({message: "no route found!"})
 })
 
 app.listen(port, () => {
