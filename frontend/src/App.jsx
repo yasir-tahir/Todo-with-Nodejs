@@ -106,7 +106,8 @@ export default function App() {
 
   }
 
-  return (<div className="min-h-screen bg-gray-100 flex items-center justify-center">
+  return (
+  <div className="min-h-screen bg-gray-100 flex items-center justify-center">
     <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
       <h1 className="text-3xl font-semibold text-indigo-600 text-center mb-6">Todo App</h1>
 
@@ -133,7 +134,6 @@ export default function App() {
 
       {/* Todo List */}
       <ul className="mt-6 space-y-4">
-        {/* Task 1 */}
       
       {todos?.map((todo,index)=>(
 
@@ -184,7 +184,7 @@ export default function App() {
   
   
            <div className="space-x-3">
-            {!todo.isEditing ? <button
+            {!todo.isEditing ? ( <button
              onClick={()=>{
               const newTodos = todos.map((todo, i)=>{
                 
@@ -203,16 +203,16 @@ export default function App() {
             }}
             className="text-indigo-600 hover:text-indigo-700 focus:outline-none">
             Edit
-            </button> :
+            </button> ) :
             
           null
             }
-           {!todo.isEditing ? <button 
-            onClick={() => deleteTodo(todo.id)}
+           {!todo.isEditing ? ( <button 
+            onClick={() => deleteTodo(todo._id)}
 
             className="text-red-600 hover:text-red-700 focus:outline-none">
               Delete
-              </button>:
+              </button> ):
               null
               }
           </div>
@@ -221,5 +221,7 @@ export default function App() {
 
       </ul>
     </div>
-  </div>)
+  </div>
+);
+
 } 

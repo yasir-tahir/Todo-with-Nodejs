@@ -3,14 +3,14 @@ import mongoose from "mongoose"
 const mongodbUri = process.env.MONGO_URI;
 
 
+
 // const res = await mongoose.connect(mongoDbUri)
 
 // console.log("res", res);
 
 const connectDB = async () => {
     try {
-        const connectionInstance = await mongoose.connect(mongodbUri, {
-        });
+        const connectionInstance = await mongoose.connect(mongodbUri);
 
         console.log(`\n🌿 MongoDB connected ! 🍃\n`);
 

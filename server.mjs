@@ -24,8 +24,9 @@ app.get('/api/v1/todos', async (request, response)=> {
 
     try {
         const todos = await Todo.find({},
-            {todoContent: 1, _id:0 }
-    
+         {ip: 0, __v: 0, updatedAt: 0}  //projection 0 wale frontend per nhi ayee gaye 
+        //  {todoContent: 1, _id: 0 } // 1 se show nhi hoga or 2 se show hoga
+   
         )
         
     const message = !todos.length?"todos empty" : "ye lo sab todos"
@@ -46,15 +47,18 @@ app.get('/api/v1/todos', async (request, response)=> {
 app.post('/api/v1/todo', async (request, response)=> {
 try {
     
-    const obj  = { todoContent: request.body.todo, 
-        ip:request.ip
+    const obj  = { 
+        todoContent: request.body.todo, 
+        ip:request.ip,
     };
 
 
-    const res = await Todo.create(obj)
+    const result = await Todo.create(obj)
+    
+
     // todos.push(obj);
 
-    response.send({message: "todo add hogaya hai", data:obj})
+    response.send({message: "todo add hogaya hai", data:result})
 } catch (error) {
     response.status(500).send("Internal server error")
     
@@ -91,9 +95,8 @@ app.patch('/api/v1/todo/:id', async (request, response)=> {
 
     if(result){
         response.status(201).send({
-            data: { todoContent: request.body.todoContent, 
-            id:id,
-        }, message:'todo updated successfully!'})
+            data: result,
+             message:'todo updated successfully!'})
     
     }else{
         response.status(200).send({data: null, message:'todo not found!'})
@@ -107,7 +110,7 @@ app.patch('/api/v1/todo/:id', async (request, response)=> {
 app.delete('/api/v1/todo/:id', async (request, response)=> {
     const id = request.params.id
 
-    const result = await Todo.findByIdAndDelete(id)
+    const result = await Todo.findByIdAndDelete(id) 
     
 
     if(result){

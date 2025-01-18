@@ -1,10 +1,9 @@
 import  { Schema, model } from "mongoose";
-import { comment } from "postcss";
 
 const todoSchema = new Schema(
     {
         todoContent: { type: String, required: true },
-        ip: { type: String }
+            ip: { type: String }
     },
     { timestamps: true },
 );
