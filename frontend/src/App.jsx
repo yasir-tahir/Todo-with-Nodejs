@@ -5,11 +5,17 @@ import toast from 'react-hot-toast'
 import { useEffect, useState } from "react"
 import axios from 'axios'
 
+export const getUrl = () => {
+  const isHosted =  window.location.href.includes("https");
+
+  const baseUrl = isHosted
+    ? 'https://todo-with-nodejs.vercel.app'
+    : "http://localhost:5001";
+  return baseUrl;
+};
+
 export default function App() {
   
-
-  const BASE_URL = 'http://localhost:5001'
-
 
   const [todos, setTodos] = useState([])
   console.log('todo', todos);
@@ -19,7 +25,7 @@ export default function App() {
   const getTodo = async ()=>{
   
     try{
-      const res = await axios(`${BASE_URL}/api/v1/todos`)
+      const res = await axios(`${getUrl()}/api/v1/todos`)
       const serverTodos = res?.data?.data
       console.log('serverTodos', serverTodos );
       
@@ -47,7 +53,7 @@ export default function App() {
 
       const todoValue = event.target.children[0].value
 
-      await axios.post(`${BASE_URL}/api/v1/todo`,
+      await axios.post(`${getUrl()}/api/v1/todo`,
         {
           "todo" : todoValue
         }
@@ -71,7 +77,7 @@ export default function App() {
 
       const todoValue = event.target.children[0].value
 
-      await axios.patch(`${BASE_URL}/api/v1/todo/${todoId}`,
+      await axios.patch(`${getUrl()}/api/v1/todo/${todoId}`,
         {
           todoContent  : todoValue,
         }
@@ -92,7 +98,7 @@ export default function App() {
    try{
     console.log('todoId', todoId);
   
-    const res = await axios.delete(`${BASE_URL}/api/v1/todo/${todoId}`)
+    const res = await axios.delete(`${getUrl()}/api/v1/todo/${todoId}`)
 
     console.log('data', res.data);
     
