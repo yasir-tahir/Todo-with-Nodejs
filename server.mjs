@@ -17,7 +17,7 @@ const todos = []
 
 // To Convert body into JSON
 app.use(express.json())
-app.use(cors({origin:['http://localhost:5173', 'https://frontend.surge.sh' ]}))
+app.use(cors({origin:['http://localhost:5173', 'https://frontend.surge.sh', 'https://yasir-smit-todowith-nodejs.netlify.app' ]}))
 
 
 app.get('/api/v1/todos', async (request, response)=> {
