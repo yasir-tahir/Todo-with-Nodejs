@@ -34,6 +34,7 @@ export default function App() {
       // })
       setTodos(serverTodos);
     } catch (err) {
+      console.log('err:',err)
       toast.dismiss()
       toast.error(err?.response?.data?.message || "unknown errorr" )
       
@@ -63,6 +64,8 @@ export default function App() {
       event.target.reset()
     } 
     catch (err) {
+      console.log('err:',err)
+
       toast.dismiss()
       toast.error(err?.response?.data?.message || "unknown errorr" )
 
@@ -87,6 +90,8 @@ export default function App() {
       event.target.reset()
     } 
     catch (err) {
+      console.log('err:',err)
+
       toast.dismiss()
       toast.error(err?.response?.data?.message || "unknown errorr" )
 
