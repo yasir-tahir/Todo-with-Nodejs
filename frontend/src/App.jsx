@@ -20,7 +20,7 @@ export default function App() {
   const [todos, setTodos] = useState([])
   console.log('todo', todos);
   
-
+  const BASE_URL = getUrl();
 
   const getTodo = async ()=>{
   
@@ -77,7 +77,7 @@ export default function App() {
 
       const todoValue = event.target.children[0].value
 
-      await axios.patch(`${getUrl()}/api/v1/todo/${todoId}`,
+      await axios.patch(`${BASE_URL}/api/v1/todo/${todoId}`,
         {
           todoContent  : todoValue,
         }

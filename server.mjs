@@ -27,7 +27,7 @@ app.get('/api/v1/todos', async (request, response)=> {
          {ip: 0, __v: 0, updatedAt: 0}  //projection 0 wale frontend per nhi ayee gaye 
         //  {todoContent: 1, _id: 0 } // 1 se show nhi hoga or 2 se show hoga
    
-        )
+        ).sort({ _id: -1})
         
     const message = !todos.length?"todos empty" : "ye lo sab todos"
     
